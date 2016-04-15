@@ -2,22 +2,39 @@
 #include <X11/XKBlib.h>
 
 int main(int argc, char* argv[]){
-	Display *d;
+	Display *display;
 	XkbDescPtr keyboard;
 	XkbStateRec	state;
-
-	char* display = getenv("DISPLAY");
 	int result;
+
 	// connection to the X server 
-	d = XkbOpenDisplay(display, NULL, NULL, NULL, NULL, &result);
+	display = XkbOpenDisplay( getenv("DISPLAY") , NULL, NULL, NULL, NULL, &result );
+	if(!display){
+		printf("X server unreachable");
+		return -1;
+	}
 
 	keyboard = XkbAllocKeyboard();
+	if(!keyboard){
+		printf("Error creating keyboard description");
+		return -1;
+	}
 	// Obtain symbolic names from the server 
-	XkbGetNames(d, XkbGroupNamesMask, keyboard);
-	XkbGetState(d, XkbUseCoreKbd, &state);	
+	if ( XkbGetNames(display, XkbGroupNamesMask, keyboard) != Succes ){
+		printf("Error obtaining symbolic names");
+		return -1;
+	}
+	printf("%s\n", Succes);
+
+
+	if( XkbGetState(display, XkbUseCoreKbd, &state) != Succes ){
+		printf("Error getting keyboard state");
+		return -1;
+	}	
 
 	printf("%s\n", XGetAtomName(d, keyboard->names->groups[state.group]));
+	
 	// Free symbolic names structures 
-	(void)XkbFreeNames(keyboard, XkbGroupNamesMask, True);
+	XkbFreeNames(keyboard, XkbGroupNamesMask, True);
 	return 0;
 }
