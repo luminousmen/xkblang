@@ -1,10 +1,18 @@
-CFLAGS+=        -Wall
+prefix=/usr/local
+
+CFLAGS+=	-Wall
 LDADD=		-lX11
 
-SRCS=		prog.c
+SRCS=		xkblang.c
 OBJS=		$(SRCS:.c=.o)
 
-all:		prog
+all:		xkblang clean
 
-prog:	$(OBJS)
-	$(CC) $(CFLAGS) -o prog $(OBJS) $(LDADD)
+install: xkblang
+	install -m 0755 xkblang $(prefix)/bin
+
+xkblang:	$(OBJS)
+	$(CC) $(CFLAGS) -o xkblang $(OBJS) $(LDADD)
+
+clean:
+	rm $(OBJS)
