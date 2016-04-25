@@ -1,8 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <err.h>
 #include <X11/XKBlib.h>
 
+
+void usage();
+
 int main(int argc, char* argv[]){
+
+	int ch, sflag = 0;
+
+	while ((ch = getopt(argc, argv, "s")) != -1) {
+		switch (ch) {
+		case 's':
+			sflag = 1;
+			break;
+		default:
+			usage();
+			return 0;
+		}
+	}
 	Display *display;
 	XkbDescPtr keyboard;
 	XkbStateRec	state;
@@ -28,10 +45,22 @@ int main(int argc, char* argv[]){
 		errx(1, "Error getting keyboard state");
 	}	
 
-	printf("%s\n", XGetAtomName(display, keyboard->names->groups[state.group]));
+	if(sflag){
+		printf( "%.2s\n", XGetAtomName(display, keyboard->names->groups[state.group]) );
+	}
+	else {
+		printf( "%s\n", XGetAtomName(display, keyboard->names->groups[state.group]) );
+	}
 
 	// Free symbolic names structures 
 	XkbFreeNames(keyboard, XkbGroupNamesMask, True);
 	
 	return 0;
+}
+
+
+void usage(){
+	printf("Usage: [options]\n\n"
+		"Options:\n"
+		"\t-s  - short version (just 2 literals)\n");
 }

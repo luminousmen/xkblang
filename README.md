@@ -18,3 +18,9 @@ $ xkblang
 English (US)
 
 ```
+For short version:
+```bash
+$ xkblang -s
+En
+
+```
