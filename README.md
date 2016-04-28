@@ -14,13 +14,26 @@ $ sudo make install
 ### Usage
 
 ```bash
-$ xkblang
+$ xkblang -p
 English (US)
 
 ```
 For short version:
 ```bash
-$ xkblang -s
+$ xkblang -ps
 En
+
+```
+To list all available layouts:
+```bash
+$ xkblang -l
+0. English (US)
+1. Russian
+
+```
+
+To set layout:
+```bash
+$ xkblang -t 0
 
 ```
