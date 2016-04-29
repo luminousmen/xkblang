@@ -1,5 +1,6 @@
 Xkblang
 ======
+[![Build Status](https://travis-ci.org/luminousmen/xkblang.svg?branch=master)](https://travis-ci.org/luminousmen/xkblang)
 
 Xkblang is a simple program for getting current keyboard layout. Primarily this program was written for [i3blocks](https://github.com/vivien/i3blocks) blocklet for getting current layout.
 
