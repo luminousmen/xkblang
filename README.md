@@ -7,9 +7,14 @@ Xkblang is a simple program for getting current keyboard layout. Primarily this 
 
 Xkblang written on pure C. The only dependency is libX11.
 
-```Makefile
+```bash
 $ make
 $ sudo make install
+```
+OR
+with deb packet:
+```bash
+$ dpkg -i xkblang_1.0-1.deb
 ```
 
 ### Usage
