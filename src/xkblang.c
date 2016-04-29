@@ -5,7 +5,7 @@
 #include <X11/XKBlib.h>
 #include <stdlib.h> 
 
-void usage();
+void usage(void);
 
 int main(int argc, char* argv[]){
 
@@ -17,7 +17,7 @@ int main(int argc, char* argv[]){
 	int group_num;
 	char * endptr;
 
-	while ((ch = getopt(argc, argv, "slpt:")) != -1) {
+	while ( (ch = getopt(argc, argv, "slpt:")) != -1) {
 		switch (ch) {
 		case 's':
 			sflag = 1;
@@ -44,26 +44,26 @@ int main(int argc, char* argv[]){
 
 	// connection to the X server 
 	display = XkbOpenDisplay( getenv("DISPLAY") , NULL, NULL, NULL, NULL, &result );
-	if(!display){
+	if( !display ) {
 		errx(1, "X server unreachable");
 	}
 
 	keyboard = XkbAllocKeyboard();
-	if(!keyboard){
+	if( !keyboard ) {
 		errx(1, "Error creating keyboard description");
 	}
 
 	// Obtain symbolic names from the server 
-	if ( XkbGetNames(display, XkbGroupNamesMask, keyboard) != Success ){
+	if ( XkbGetNames(display, XkbGroupNamesMask, keyboard) != Success ) {
 		errx(1, "Error obtaining symbolic names");
 	}
 
 	if(pflag){
-		if( XkbGetState(display, XkbUseCoreKbd, &state) != Success ){
+		if( XkbGetState(display, XkbUseCoreKbd, &state) != Success ) {
 			errx(1, "Error getting keyboard state");
 		}	
 
-		if(sflag){
+		if( sflag ) {
 			printf( "%.2s\n", XGetAtomName(display, keyboard->names->groups[state.group]) );
 		}
 		else {
@@ -75,7 +75,7 @@ int main(int argc, char* argv[]){
 	    Atom current_group;
 	    int i = 0;
 	    for (; i < XkbNumKbdGroups; i++) {
-	        if ((current_group = keyboard->names->groups[i]) != NULL) {
+	        if ( (current_group = keyboard->names->groups[i]) != 0 ) {
 	            char* group_name = XGetAtomName(display, current_group);
 	            if (group_name != NULL) {
 	            	printf( "%d. %s\n", i, group_name );
@@ -103,13 +103,13 @@ int main(int argc, char* argv[]){
 	return 0;
 }
 
-void usage(){
+void usage(void){
 	printf( "Usage: [options]\n\n"
 		"Options:\n"
 		"\t-p  - print current keyboard layout\n"
 		"\t-s  - short version (just 2 literals)\n"
 		"\t-l  - show list of all availible layouts\n"
-		"\t-t=group_num  - set current layout to 'group_num'\n"
+		"\t-t group_num  - set current layout to 'group_num'\n"
 
 		"\nExamples:\n"
 		"\t$ xkblang -ps\n"
@@ -117,6 +117,6 @@ void usage(){
 		"\t$ xkblang -l\n"
 		"\t0. English (US)\n"
 		"\t1. Russian\n\n"
-		"\t$ xkblang -t=0\n"
+		"\t$ xkblang -t 0\n"
 	);
 }
